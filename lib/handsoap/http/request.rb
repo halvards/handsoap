@@ -6,6 +6,7 @@ module Handsoap
     # Represents a HTTP Request.
     class Request
       attr_reader :url, :http_method, :headers, :body, :username, :password, :trust_ca_file, :client_cert_file, :client_cert_key_file
+      attr_reader :ntlm_domain
       attr_writer :body, :http_method
       def initialize(url, http_method = :get)
         @url = url
@@ -14,6 +15,7 @@ module Handsoap
         @body = nil
         @username = nil
         @password = nil
+        @ntlm_domain = nil
         @trust_ca_file = nil
         @client_cert_file = nil
         @client_cert_key_file = nil
@@ -25,9 +27,10 @@ module Handsoap
         @client_cert_file = client_cert_file
         @client_cert_key_file = client_cert_key_file
       end
-      def set_auth(username, password)
+      def set_auth(username, password, ntlm_domain = nil)
         @username = username
         @password = password
+        @ntlm_domain = ntlm_domain
       end
       def add_header(key, value)
         if @headers[key].nil?
